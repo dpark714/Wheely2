@@ -85,7 +85,7 @@
                                         {{ form.origin }}
                                     </div>
                                     <div>
-                                        <label class="col-3"  for="id_destination">Destination:</label>
+                                        <label class="col-3" for="id_destination">Destination:</label>
                                         {{ form.destination }}
                                     </div>
                                     <button type="submit">Submit</button>
@@ -205,6 +205,36 @@
     <!-- #primary-content -->
 
 </main>
+
+<script>
+
+    document.getElementById('Trip-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const origin = document.querySelector('[name="origin"]').value;
+        const destination = document.querySelector('[name="destination"]').value;
+
+
+        const mapFrame = document.querySelector('iframe');
+        const baseUrl = "https://www.google.com/maps/embed/v1/directions";
+        const apiKey = "AIzaSyAJZrqHWZDoeJITmdoB5yF2PWAruBHPYTw";  
+        const newSrc = `${baseUrl}?key=${apiKey}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&mode=transit`;
+        mapFrame.src = newSrc;  
+
+        fetch('{% url "save_trip_details" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({origin: origin, destination: destination})
+    }).then(response => response.json())
+      .then(data => console.log('Data saved:', data))
+      .catch(error => console.error('Error:', error))
+    });
+
+</script>
+
+
 
 {% endblock %}
 
