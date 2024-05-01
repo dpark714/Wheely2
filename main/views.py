@@ -17,7 +17,10 @@ def signup(request):
     return render(request, 'auth/signup.html')
 
 def contact_us(request):
-    return render(request, 'contact_us.html')
+    return render(request, 'request/contact_us.html')
 
 def news_press(request):
     return render(request, 'news_press.html')
+
+def about_team(request):
+    return render(request, 'about_team.html')
