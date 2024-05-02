@@ -216,7 +216,7 @@
 
         const mapFrame = document.querySelector('iframe');
         const baseUrl = "https://www.google.com/maps/embed/v1/directions";
-        const apiKey = "AIzaSyAJZrqHWZDoeJITmdoB5yF2PWAruBHPYTw";  
+        const apiKey = "";  
         const newSrc = `${baseUrl}?key=${apiKey}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&mode=transit`;
         mapFrame.src = newSrc;  
 
