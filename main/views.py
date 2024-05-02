@@ -46,35 +46,48 @@ def save_Trip(request):
     return render(request, 'your_template_name.html', {'form': form})
 
 
-@csrf_exempt
+@csrf_protect
 def save_trip_details(request):
-        if request.method == 'POST':
-            user_origin = request.POST.get('origin')
-            user_destination = request.POST.get('destination')
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            user_origin = data.get('origin')
+            user_destination = data.get('destination')
 
-           
             response = requests.get(
                 'https://maps.googleapis.com/maps/api/directions/json',
                 params={
                     'origin': user_origin,
                     'destination': user_destination,
+                    'mode': 'transit', 
                     'key': settings.GOOGLE_MAPS_API_KEY
                 }
             )
             directions = response.json()
 
-
             if directions['status'] == 'OK':
-                real_origin = directions['routes'][0]['legs'][0]['start_address']
-                real_destination = directions['routes'][0]['legs'][0]['end_address']
+                for route in directions['routes']:
+                    for leg in route['legs']:
+                        start_station = leg['start_address']
+                        end_station = leg['end_address']
 
-               
-                TripDetail.objects.create(
-                    origin=real_origin,
-                    destination=real_destination
-                )
-                return JsonResponse({'status': 'success', 'origin': real_origin, 'destination': real_destination})
+                       
+                        for step in leg['steps']:
+                            if step['travel_mode'] == 'TRANSIT':
+                                transit_details = step['transit_details']
+                                departure_stop = transit_details['departure_stop']['name']
+                                arrival_stop = transit_details['arrival_stop']['name']
+
+
+                                StationInfo.objects.create(
+                                    start_station=departure_stop,
+                                    end_station=arrival_stop
+                                )
+                
+                return JsonResponse({'status': 'success', 'message': 'Station details saved.'})
             else:
                 return JsonResponse({'status': 'error', 'message': 'Unable to find route'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
 
-        return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
