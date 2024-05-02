@@ -1,3 +1,13 @@
 from django.db import models
 
-# Create your models here.
+class Trip(models.Model):
+    origin = models.CharField(max_length=255)
+    destination = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.origin} to {self.destination}"
+
+class TripDetail(models.Model):
+    origin = models.CharField(max_length=255)
+    destination = models.CharField(max_length=255)
