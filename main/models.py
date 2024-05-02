@@ -11,3 +11,7 @@ class Trip(models.Model):
 class TripDetail(models.Model):
     origin = models.CharField(max_length=255)
     destination = models.CharField(max_length=255)
+
+class StationInfo(models.Model):
+    start_station = models.CharField(max_length=255)
+    end_station = models.CharField(max_length=255)
