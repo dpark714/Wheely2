@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="../static/css/all.min.css">
 
     <link rel="stylesheet" href="../static/css/theme.css">
+    
+    {% block custom_css_links %}{% endblock %}
 
 </head>
 
@@ -110,7 +112,16 @@
 
                                 <ul class="extensible-list horizontal">
                                     <li>
+                                        {% if user.is_authenticated %}
+                                        <a href="/logout" class="btn btn-sm btn-info">Logout</a>
+                                        {% else %}
                                         <a href="/login" class="btn btn-sm btn-info">Login</a>
+                                        {% endif %}
+                                    </li>
+                                    <li>
+                                        {% if user.is_authenticated %}
+                                            <a href="/profile" class="btn btn-sm btn-success">Welcome, {{ user.first_name }}</a>
+                                        {% endif %}
                                     </li>
                                     <li>
                                         <button class="no-btn-style" type="button" title="Language"

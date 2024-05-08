@@ -2,9 +2,6 @@ from django.contrib import admin
 from .models import Trip, TripDetail
 
 
-
-
-
 # Register your models here.
 
 class TripAdmin(admin.ModelAdmin):

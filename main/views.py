@@ -7,9 +7,11 @@ from .models import TripDetail
 import json
 import requests
 from django.conf import settings
-from .models import TripDetail
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
-# Create your views here.
+
 def index(request):
     return render(request, 'main/index.html')
 
@@ -18,11 +20,30 @@ def map(request):
     context['form'] = TripForm()
     return render(request, 'main/map.html', context)
 
-def login(request):
+def user_login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/profile/')
+        else:
+            return render(request, 'auth/login.html', {'error_message': 'Invalid email or password'})
     return render(request, 'auth/login.html')
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
 def signup(request):
-    return render(request, 'auth/signup.html')
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            return redirect('/login/')
+    else:
+        form = SignupForm()
+    return render(request, 'auth/signup.html', {'form': form})
 
 def contact_us(request):
     return render(request, 'contact_us.html')
@@ -33,6 +54,9 @@ def news_press(request):
 def about_team(request):
     return render(request, 'about_team.html')
 
+@login_required
+def profile(request):
+    return render(request, 'auth/profile.html')
 
 def save_Trip(request):
     if request.method == 'POST':

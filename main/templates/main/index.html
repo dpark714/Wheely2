@@ -3,22 +3,19 @@
     Wheely - Landing Page
 {% endblock title %}
 
+{% load static %}
+{% block custom_css_links %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock custom_css_links %}
+
 {% block content %}
 <main id="skip-header-target" role="main">
 
     <section class="featured-panel device-md">
 
-        <div class="card bg-primary">
-            <img class="card-img opacity-40 full-opacity-on-device" src="https://via.placeholder.com/1500x750" alt="Card image">
+        <div class="card">
+            <img class="logo card-img full-opacity-on-device" src="../../static/img/wheely.png" alt="Card image">
             <div class="card-img-overlay d-flex">
-                <div class="container align-self-center my-3">
-                    <div class="narrow text-white text-center">
-                        <h2>Are you</h2>
-                        <h2>to explore?</h2>
-                        <br>
-                        <a href="#" class="btn btn-lg btn-info">Start</a>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

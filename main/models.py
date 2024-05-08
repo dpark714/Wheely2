@@ -11,3 +11,14 @@ class Trip(models.Model):
 class TripDetail(models.Model):
     origin = models.CharField(max_length=255)
     destination = models.CharField(max_length=255)
+
+# class User(models.Model):
+#     name = models.CharField(max_length=255)
+#     email = models.EmailField(unique=True, max_length=50)
+#     password = models.CharField(max_length=20)
+
+#     class Meta:
+#         db_table = 'users'
+
+
+    
