@@ -5043,7 +5043,9 @@ input[type="button"].btn-block {
 }
 
 .bg-primary {
-  background-color: #B2D8CD  !important;
+  background-image: url("../img/WheelyLogo.png") !important;
+  width: 1500px;
+  height: 750px;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
