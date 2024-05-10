@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .form.forms import TripForm 
+from .form.forms import TripForm, SignupForm
 from .models import Trip
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -40,6 +40,18 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
+            # Extract form data
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            # Create and save the user
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+
             return redirect('/login/')
     else:
         form = SignupForm()
@@ -48,8 +60,8 @@ def signup(request):
 def contact_us(request):
     return render(request, 'contact_us.html')
 
-def news_press(request):
-    return render(request, 'news_press.html')
+def about_wheely(request):
+    return render(request, 'about_wheely.html')
 
 def about_team(request):
     return render(request, 'about_team.html')
