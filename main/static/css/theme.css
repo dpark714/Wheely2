@@ -5043,8 +5043,8 @@ input[type="button"].btn-block {
 }
 
 .bg-primary {
-  background-image: url("../img/nyc.png");
-  background-size: contain;
+  background-image: url("../img/train3.jpg");
+  background-size: cover;
   width: 100%;
   height: 750px;
 }
@@ -9154,6 +9154,7 @@ button.bg-black:focus {
 .text-white {
   color: #fff !important;
 }
+
 
 .text-primary {
   color: #181A7B !important;
