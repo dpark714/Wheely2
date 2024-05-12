@@ -5043,7 +5043,9 @@ input[type="button"].btn-block {
 }
 
 .bg-primary {
-  width: 1500px;
+  background-image: url("../img/nyc.png");
+  background-size: contain;
+  width: 100%;
   height: 750px;
 }
 
@@ -10756,7 +10758,6 @@ legend,
   left: 0;
   z-index: auto;
   opacity: 0.25;
-  background-image: url("../images/placeholder-1500x750.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;

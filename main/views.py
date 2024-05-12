@@ -10,7 +10,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 def index(request):
     return render(request, 'main/index.html')
@@ -58,6 +59,20 @@ def signup(request):
     return render(request, 'auth/signup.html', {'form': form})
 
 def contact_us(request):
+    # if request.method == 'POST':
+    #     first_name = request.POST.get('firstName')
+    #     last_name = request.POST.get('lastName')
+    #     email = request.POST.get('email')
+    #     message = request.POST.get('message')
+
+    #     #sending email to admin
+    #     subject = 'Contact Us Submission'
+    #     message_body = f'Submission: \n\nName: {first_name} {last_name}\nEmail: {email}\nMessage:{message}'
+    #     sender_email = email
+    #     recipient_email = 'dpark000@citymail.cuny.edu'
+    #     send_mail(subject, message_body, sender_email, [recipient_email])
+
+    #     return render(request, 'confirm.html')
     return render(request, 'contact_us.html')
 
 def about_wheely(request):

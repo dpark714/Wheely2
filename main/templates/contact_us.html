@@ -1,25 +1,20 @@
-{% extends "base.html" %} 
-{% load static %}
-
+{% extends "base.html" %} {% load static %} 
 {% block custom_css_links %}
-    <link rel="stylesheet" href="{% static 'css/contact_us.css' %}" />
-{% endblock custom_css_links %}
-
+<link rel="stylesheet" href="{% static 'css/contact_us.css' %}" />
+{% endblock custom_css_links %} 
 {% block content %}
 <div class="about-us-container">
   <section id="mission" class="section">
     <div class="section-content">
-      <h1>Let's make Wheely better</h1>
-      <p>
-        We are dedicated to providing exceptional service. Please feel free to
-        reach out to us using the form below.
-      </p>
+      <h1>Let's make Wheely better together</h1>
+      <p>Please feel free to reach out to us using the form below.</p>
     </div>
   </section>
   <section id="contact-form" class="section">
     <div class="section-content text-left">
       <div class="history-content">
         <form action="#" method="post">
+          {% csrf_token %}
           <div class="row mb-3">
             <div class="col-md-6">
               <label for="firstName" class="form-label">First Name</label>

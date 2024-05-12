@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% block custom_css_links %}
+<link rel="stylesheet" href="{% static 'css/about_wheely.css' %}" />
+{% endblock custom_css_links %} 
+
 {% block content %}
-<main class="about-sec d-flex flex-column justify-content-center align-items-center ">
-    <div class="p text-center">
-        <h1 style="z-index: 100; color: white;">About Us</h1>
-        <p style="z-index: 100; color: white;">Home-About</p>
-    </div>
-</main>
+
 
 <main class="about-sec3">
-    <div class="container p-3">
+    <div class="container p-4">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3">
                 <h1>The Accessibility Challenge</h1>
@@ -18,18 +17,18 @@
 
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3">
-                <img src="{% static 'img/wheelchair-749985_1280.jpg' %}" style="border-radius: 10px; width: 100%;" alt="">
+                <img class="content" src="{% static 'img/wheelchair-749985_1280.jpg' %}" alt="">
             </div>
         </div>
 
 
     </div>
 </main>
-<main class="about-sec3" id="reservations" style="margin-top: 100px; margin-bottom: 100px; ">
-    <div class="container p-3 pt-5 pb-5">
+<main class="about-sec3" id="reservations">
+    <div class="container p-4">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3 mb-3">
-                <img src="{% static 'img/people-2570542_1280.jpg' %}" style="border-radius: 10px; width: 100%;" alt="">
+                <img class="content" src="{% static 'img/people-2570542_1280.jpg' %}" alt="">
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3">
                 <h1>Our Solution</h1>
@@ -46,7 +45,7 @@
 </main>
 
 <main class="about-sec3" id="appoint">
-    <div class="container p-3 pt-5 pb-5">
+    <div class="container p-4">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3 mb-3">
                 <h1>Our Features</h1>
@@ -54,7 +53,7 @@
 
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3">
-                <img src="{% static 'img/maps-4237764_1280.jpg' %}" style="border-radius: 10px; width: 100%;"
+                <img class="content" src="{% static 'img/maps-4237764_1280.jpg' %}"
                     alt="">
             </div>
         </div>
@@ -64,14 +63,12 @@
 </main>
 
 <main class="about-sec3" id="reservations">
-    <div class="container p-3">
+    <div class="container p-4">
         <h2 class="mt-4 mb-5 text-center">Our Contact System</h2>
         <div class="row">
-
-
             <div class="col-xl-12 ps-3 pe-3">
                 <div class="mb-4 text-center">
-                    <img src="{% static 'img/starReview.png' %}" width="200" alt="">
+                    <img class="star" class="contactSystem" src="{% static 'img/starReview.png' %}" alt="">
                 </div>
                 <p class="fs-3 text-center">our contact system prioritizes accessibility and responsiveness, offering multiple channels for inquiries and support needs, ensuring a seamless and efficient experience for our users.</p>
 
