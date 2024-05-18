@@ -1,11 +1,68 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tz %}
+
+{% block custom_css_links %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container pt-5 pl-5 pr-5">
     <h1>Welcome, {{ user.get_full_name }}</h1>
     <p>Email: {{ user.email }}</p>
     <p>First Name: {{ user.first_name }}</p>
     <p>Last Name: {{ user.last_name }}</p>
 </div>
-{% endblock %}
+
+<div class="container p-5">
+    <h1>Explore history</h1>
+    <div>
+        <div class="card profile-card">
+            <div class="card-body">
+                <div class="mb-2 d-flex justify-content-between align-items-center">
+                    <h5>Date from - Date to</h5>
+                    <button class="btn btn-danger">Delete</button>
+                </div>
+                <hr>
+                <div class="mb-2 mt-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" style="margin-top: 9px;" id="checkbox1">
+                        <label class="form-check-label" for="checkbox1">
+                            Select all
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                <div class="mt-2 mb-2" style="padding-left: 22px;">
+                    <form action="#" method="post" id="checkboxForm">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox2">
+                            <label class="form-check-label" for="checkbox2">
+                                Map history 1
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox3">
+                            <label class="form-check-label" for="checkbox3">
+                                Map history 2
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox4">
+                            <label class="form-check-label" for="checkbox4">
+                                Map history 3
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox5">
+                            <label class="form-check-label" for="checkbox5">
+                                Map history 4
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
