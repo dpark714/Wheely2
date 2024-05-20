@@ -16,23 +16,28 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     {{ form.first_name.errors }}
+                    <p>First Name</p>
                     <input type="text" name="first_name" class="form-control" id="firstName" placeholder="First Name" required>
                 </div>
                 <div class="mb-3">
                     {{ form.last_name.errors }}
+                    <p>Last Name</p>
                     <input type="text" name="last_name" class="form-control" id="lastName" placeholder="Last Name" required>
                 </div>
                 <div class="mb-3">
                     {{ form.email.errors }}
+                    <p>Email</p>
                     <input type="email" name="email" class="form-control" id="email" placeholder="Email Address" required>
                 </div>
                 <div class="mb-3">
                     {{ form.password.errors }}
+                    <p>Password</p>
                     <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
                 </div>
                 <div class="mb-4">
                     {{ form.password2.errors }}
-                    <input type="password" name="password2" class="form-control" id="password2" placeholder="Confirm Password" required>
+                    <p>Confirm Password</p>
+                    <input type="password" name="password2" class="form-control" id="password2" placeholder="Re-enter the Password" required>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-success w-100">Register</button>

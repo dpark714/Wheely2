@@ -19,9 +19,11 @@
             <form action="{% url 'login' %}" method="post" class="mb-2">
                 {% csrf_token %}
                 <div class="mb-3">
+                    <p>Username</p>
                     <input type="email" name="email" class="form-control" id="email" placeholder="Email Address">
                 </div>
                 <div class="mb-4">
+                    <p>Password</p>
                     <input type="password" name="password" class="form-control" id="password" placeholder="Password">
                 </div>
                 <div class="mb-3">
