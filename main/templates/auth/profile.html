@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load tz %}
 
 {% block custom_css_links %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
@@ -15,54 +14,118 @@
 </div>
 
 <div class="container p-5">
-    <h1>Explore history</h1>
     <div>
         <div class="card profile-card">
             <div class="card-body">
                 <div class="mb-2 d-flex justify-content-between align-items-center">
-                    <h5>Date from - Date to</h5>
-                    <button class="btn btn-danger">Delete</button>
+                    <h5>Explore history</h5>
+                    <button id="deleteButton" class="btn btn-danger">Delete</button>
                 </div>
                 <hr>
                 <div class="mb-2 mt-2">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" style="margin-top: 9px;" id="checkbox1">
-                        <label class="form-check-label" for="checkbox1">
+                        <input class="form-check-input" type="checkbox" style="margin-top: 9px;" id="selectAll">
+                        <label class="form-check-label" for="selectAll">
                             Select all
                         </label>
                     </div>
                 </div>
                 <hr>
-                <div class="mt-2 mb-2" style="padding-left: 22px;">
+                <div class="mt-2 mb-2">
                     <form action="#" method="post" id="checkboxForm">
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox2">
+                        <div class="form-check mb-3" id="checkbox2-container">
+                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox2" data-origin="Times Sq - 42 St" data-destination="137 St - City College">
                             <label class="form-check-label" for="checkbox2">
-                                Map history 1
+                                History 1
                             </label>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox3">
+                        <div class="form-check mb-3" id="checkbox3-container">
+                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox3" data-origin="14 St" data-destination="Franklin St">
                             <label class="form-check-label" for="checkbox3">
-                                Map history 2
+                                History 2
                             </label>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox4">
+                        <div class="form-check mb-3" id="checkbox4-container">
+                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox4" data-origin="Court St" data-destination="City Hall">
                             <label class="form-check-label" for="checkbox4">
-                                Map history 3
+                                History 3
                             </label>
                         </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" class="profile-card-input-check" id="checkbox5">
+                        <div class="form-check mb-3" id="checkbox5-container">
+                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox5" data-origin="Union St" data-destination="34 St - Herald Sq">
                             <label class="form-check-label" for="checkbox5">
-                                Map history 4
+                                History 4
                             </label>
                         </div>
                     </form>
                 </div>
-
+                <div id="map-history-details" class="mt-4" style="display: none;">
+                    <h5>Details</h5>
+                    <div id="details-container"></div>
+                </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.profile-card-input-check');
+    const deleteButton = document.getElementById('deleteButton');
+    const detailsContainer = document.getElementById('map-history-details');
+    const detailsContent = document.getElementById('details-container');
+
+    selectAllCheckbox.addEventListener('change', function() {
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+        updateDetails();
+    });
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            if (!checkbox.checked) {
+                selectAllCheckbox.checked = false;
+            } else {
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                if (allChecked) {
+                    selectAllCheckbox.checked = true;
+                }
+            }
+            updateDetails();
+        });
+    });
+
+    deleteButton.addEventListener('click', function() {
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                const container = checkbox.closest('.form-check');
+                container.remove();
+            }
+        });
+        updateDetails();
+    });
+
+    function updateDetails() {
+        const selectedCheckboxes = Array.from(checkboxes).filter(cb => cb.checked);
+        if (selectedCheckboxes.length > 0) {
+            detailsContent.innerHTML = '';
+            selectedCheckboxes.forEach(checkbox => {
+                const origin = checkbox.getAttribute('data-origin');
+                const destination = checkbox.getAttribute('data-destination');
+                const detailItem = `
+                    <p><strong>Origin:</strong> ${origin}</p>
+                    <p><strong>Destination:</strong> ${destination}</p>
+                    <hr>
+                `;
+                detailsContent.innerHTML += detailItem;
+            });
+            detailsContainer.style.display = 'block';
+        } else {
+            detailsContainer.style.display = 'none';
+        }
+    }
+});
+</script>
+{% endblock %}
