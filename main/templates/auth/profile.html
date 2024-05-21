@@ -32,6 +32,7 @@
                 </div>
                 <hr>
                 <div class="mt-2 mb-2">
+<<<<<<< HEAD
                     <form action="#" method="post" id="checkboxForm">
                         <div class="form-check mb-3" id="checkbox2-container">
                             <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox2" data-origin="Times Sq - 42 St" data-destination="137 St - City College">
@@ -57,6 +58,18 @@
                                 History 4
                             </label>
                         </div>
+=======
+                    <form action="{% url 'delete_history' %}" method="post" id="checkboxForm">
+                        {% csrf_token %}
+                        {% for history in user.searchhistory_set.all %}
+                        <div class="form-check mb-3">
+                            <input class="form-check-input profile-card-input-check" type="checkbox" name="selected_histories" value="{{ history.id }}" id="checkbox{{ forloop.counter }}">
+                            <label class="form-check-label" for="checkbox{{ forloop.counter }}">
+                                {{ history.origin }} to {{ history.destination }} at {{ history.search_time }}
+                            </label>
+                        </div>
+                        {% endfor %}
+>>>>>>> 9a26a7e (Connected backend to frontend)
                     </form>
                 </div>
                 <div id="map-history-details" class="mt-4" style="display: none;">
@@ -75,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteButton = document.getElementById('deleteButton');
     const detailsContainer = document.getElementById('map-history-details');
     const detailsContent = document.getElementById('details-container');
+<<<<<<< HEAD
+=======
+    const form = document.getElementById('checkboxForm');
+>>>>>>> 9a26a7e (Connected backend to frontend)
 
     selectAllCheckbox.addEventListener('change', function() {
         checkboxes.forEach(function(checkbox) {
@@ -98,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     deleteButton.addEventListener('click', function() {
+<<<<<<< HEAD
         checkboxes.forEach(function(checkbox) {
             if (checkbox.checked) {
                 const container = checkbox.closest('.form-check');
@@ -105,6 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         updateDetails();
+=======
+        if (confirm('Are you sure you want to delete the selected history items?')) {
+            form.submit();
+        }
+>>>>>>> 9a26a7e (Connected backend to frontend)
     });
 
     function updateDetails() {
