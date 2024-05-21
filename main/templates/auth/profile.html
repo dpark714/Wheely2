@@ -33,30 +33,14 @@
                 <hr>
                 <div class="mt-2 mb-2">
                     <form action="#" method="post" id="checkboxForm">
-                        <div class="form-check mb-3" id="checkbox2-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox2" data-origin="Times Sq - 42 St" data-destination="137 St - City College">
-                            <label class="form-check-label" for="checkbox2">
-                                History 1
+                        {% for history in user.searchhistory_set.all %}
+                        <div class="form-check mb-3">
+                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox{{ forloop.counter }}" data-origin="{{ history.origin }}" data-destination="{{ history.destination }}">
+                            <label class="form-check-label" for="checkbox{{ forloop.counter }}">
+                                {{ history.origin }} to {{ history.destination }} at {{ history.search_time }}
                             </label>
                         </div>
-                        <div class="form-check mb-3" id="checkbox3-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox3" data-origin="14 St" data-destination="Franklin St">
-                            <label class="form-check-label" for="checkbox3">
-                                History 2
-                            </label>
-                        </div>
-                        <div class="form-check mb-3" id="checkbox4-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox4" data-origin="Court St" data-destination="City Hall">
-                            <label class="form-check-label" for="checkbox4">
-                                History 3
-                            </label>
-                        </div>
-                        <div class="form-check mb-3" id="checkbox5-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox5" data-origin="Union St" data-destination="34 St - Herald Sq">
-                            <label class="form-check-label" for="checkbox5">
-                                History 4
-                            </label>
-                        </div>
+                        {% endfor %}
                     </form>
                 </div>
                 <div id="map-history-details" class="mt-4" style="display: none;">
