@@ -1,18 +1,5 @@
 from django.db import models
-<<<<<<< HEAD
 
-class Trip(models.Model):
-    origin = models.CharField(max_length=255)
-    destination = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.origin} to {self.destination}"
-
-class TripDetail(models.Model):
-    origin = models.CharField(max_length=255)
-    destination = models.CharField(max_length=255)
-=======
 from django.contrib.auth.models import User
 
 # class Trip(models.Model):
@@ -26,7 +13,6 @@ from django.contrib.auth.models import User
 # class TripDetail(models.Model):
 #     origin = models.CharField(max_length=255)
 #     destination = models.CharField(max_length=255)
->>>>>>> 9a26a7e (Connected backend to frontend)
 
 # class User(models.Model):
 #     first_name = models.CharField(max_length=255)
@@ -36,10 +22,6 @@ from django.contrib.auth.models import User
 
 #     class Meta:
 #         db_table = 'users'
-
-
-<<<<<<< HEAD
-=======
 
 class StationInfo(models.Model):
     start_station = models.CharField(max_length=255)
@@ -77,8 +59,4 @@ class SearchHistory(models.Model):
         return f"{self.user.username} - {self.origin} to {self.destination}"
 
 
-
-
-
->>>>>>> 9a26a7e (Connected backend to frontend)
     
