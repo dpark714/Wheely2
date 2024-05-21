@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import *
 from . import views
-from .views import save_trip_details
+from .views import station_info
+# from .views import list_accessible_stations
 
 
 urlpatterns = [
@@ -13,6 +14,8 @@ urlpatterns = [
     path('contact_us/', contact_us, name='contact_us'),
     path('about_wheely/', about_wheely, name='about_wheely'),
     path('profile/', views.profile, name='profile'),
-    path('save-trip/', views.save_Trip, name='save_Trip'),
-    path('save-trip-details/', save_trip_details, name='save_trip_details'),
+    path('station_info/', station_info, name='station_info'),
+    # path('accessible-stations/', list_accessible_stations, name='accessible-stations'),
+    path('accessible-stations/', views.accessible_station_list, name='accessible_station_list'),
+    path('all-stations/', views.all_station_list, name='all_station_list')
 ]

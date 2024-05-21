@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from .form.forms import TripForm, SignupForm
-from .models import Trip
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import TripDetail
 import json
 import requests
 from django.conf import settings
@@ -11,7 +9,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
-from django.conf import settings
+from .models import StationInfo
+from django.views.decorators.http import require_http_methods
+from django.http import HttpResponse
+from .models import AccessibleStation, AllStation,  SearchHistory
+# from .models import AccessibilityStation
+import logging
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+
+
 
 def index(request):
     return render(request, 'main/index.html')
@@ -85,47 +91,87 @@ def about_team(request):
 def profile(request):
     return render(request, 'auth/profile.html')
 
-def save_Trip(request):
-    if request.method == 'POST':
-        form = TripForm(request.POST)
-        if form.is_valid():
-            Trip = form.save()
-            return redirect('some-success-url')  
-    else:
-        form = TripForm()
-
-    return render(request, 'your_template_name.html', {'form': form})
 
 
-@csrf_exempt
-def save_trip_details(request):
-        if request.method == 'POST':
-            user_origin = request.POST.get('origin')
-            user_destination = request.POST.get('destination')
+def accessible_station_list(request):
+    stations = AccessibleStation.objects.all()
+    return render(request, 'accessible_station_list.html', {'stations': stations})
 
-           
-            response = requests.get(
-                'https://maps.googleapis.com/maps/api/directions/json',
-                params={
-                    'origin': user_origin,
-                    'destination': user_destination,
-                    'key': settings.GOOGLE_MAPS_API_KEY
-                }
+def all_station_list(request):
+    stations = AllStation.objects.all()
+    return render(request, 'all_station_list.html', {'stations': stations})
+
+logger = logging.getLogger(__name__)
+
+
+@require_http_methods(["POST"])
+def station_info(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        user_origin = data.get('origin')
+        user_destination = data.get('destination')
+
+        response = requests.get(
+            'https://maps.googleapis.com/maps/api/directions/json',
+            params={
+                'origin': user_origin,
+                'destination': user_destination,
+                'mode': 'transit',
+                'key': settings.GOOGLE_MAPS_API_KEY
+            }
+        )
+        directions = response.json()
+
+        if directions['status'] == 'OK':
+            transfer_stations = []
+            bus_stations = []
+
+            for route in directions['routes']:  
+                for leg in route['legs']:
+                    for step in leg['steps']:
+                        if step['travel_mode'] == 'TRANSIT':
+                            transit_details = step['transit_details']
+                            departure_stop = transit_details['departure_stop']['name']
+                            arrival_stop = transit_details['arrival_stop']['name']
+                            vehicle_type = transit_details['line']['vehicle']['type']
+
+
+                            if vehicle_type == 'SUBWAY':
+                                transfer_stations.append(departure_stop)
+                                transfer_stations.append(arrival_stop)
+
+                            elif vehicle_type == 'BUS':
+                                bus_stations.append(departure_stop)
+                                bus_stations.append(arrival_stop)
+
+                                if 'intermediate_stops' in transit_details:
+                                    for stop in transit_details['intermediate_stops']:
+                                        bus_stations.append(stop['name'])
+
+                            logger.debug(f"Added {vehicle_type} stops: {departure_stop}, {arrival_stop}")
+
+            StationInfo.objects.create(
+                start_station=user_origin,
+                end_station=user_destination,
+                transfer_stations=transfer_stations,
+                bus_stations=bus_stations,
             )
-            directions = response.json()
+
+            SearchHistory.objects.create(
+                user=request.user,
+                origin=user_origin,
+                destination=user_destination
+            )
 
 
-            if directions['status'] == 'OK':
-                real_origin = directions['routes'][0]['legs'][0]['start_address']
-                real_destination = directions['routes'][0]['legs'][0]['end_address']
+            return JsonResponse(directions)
+        else:
+            logger.error("Google Maps API error: " + directions['status'])
+            return JsonResponse({'status': 'error', 'message': 'Unable to find route'})
+    except json.JSONDecodeError as e:
+        return JsonResponse({'error': 'Invalid JSON data', 'message': str(e)}, status=400)
+    except Exception as e:
+        logger.exception("Exception in station_info:")
+        return JsonResponse({'status': 'error', 'message': str(e)})
 
-               
-                TripDetail.objects.create(
-                    origin=real_origin,
-                    destination=real_destination
-                )
-                return JsonResponse({'status': 'success', 'origin': real_origin, 'destination': real_destination})
-            else:
-                return JsonResponse({'status': 'error', 'message': 'Unable to find route'})
-
-        return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
