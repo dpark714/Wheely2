@@ -21,6 +21,8 @@ Wheely is a Python web application built using the Django framework for the back
 
 
 ## Acknowledgements
+In order to use Google Map API, API Key is required. Inquire it @dpark000@citymail.cuny.edu
+
 Wheely is implemented by open-source, NYC Core Framework.
 
 [CityOfNewYork/ nyc-core-framework](https://github.com/CityOfNewYork/nyc-core-framework/tree/master)
