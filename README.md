@@ -8,16 +8,15 @@ Wheely is a Python web application built using the Django framework for the back
 ### Prerequisites & Installation
 
 ```bash
-1. Address to final-1 branch 
-2. Git clone https://github.com/dpark714/Wheely2.git
-3. ls (make sure that manage.py is listed)
-4. python manage.py makemigrations
-5. python manage.py migrate
-6. python manage.py load_data
-7. pip install pandas (if it is not installed)
-8. pip install openpyxl (if it is not installed)
-9. python manage.py runserver
-10. Open localhost server on your browser.
+1. Git clone https://github.com/dpark714/Wheely2.git
+2. ls (make sure that manage.py is listed)
+3. python manage.py makemigrations
+4. python manage.py migrate
+5. python manage.py load_data
+6. pip install pandas (if it is not installed)
+7. pip install openpyxl (if it is not installed)
+8. python manage.py runserver
+9. Open localhost server on your browser.
 ```
 
 
