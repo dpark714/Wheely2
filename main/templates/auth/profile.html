@@ -1,154 +1,127 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block custom_css_links %}
+{% extends "base.html" %} {% load static %} {% block custom_css_links %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="container pt-5 pl-5 pr-5">
-    <h1>Welcome, {{ user.get_full_name }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p>First Name: {{ user.first_name }}</p>
-    <p>Last Name: {{ user.last_name }}</p>
+  <h1>Welcome, {{ user.get_full_name }}</h1>
+  <p>Email: {{ user.email }}</p>
+  <p>First Name: {{ user.first_name }}</p>
+  <p>Last Name: {{ user.last_name }}</p>
 </div>
 
 <div class="container p-5">
-    <div>
-        <div class="card profile-card">
-            <div class="card-body">
-                <div class="mb-2 d-flex justify-content-between align-items-center">
-                    <h5>Explore history</h5>
-                    <button id="deleteButton" class="btn btn-danger">Delete</button>
-                </div>
-                <hr>
-                <div class="mb-2 mt-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" style="margin-top: 9px;" id="selectAll">
-                        <label class="form-check-label" for="selectAll">
-                            Select all
-                        </label>
-                    </div>
-                </div>
-                <hr>
-                <div class="mt-2 mb-2">
-<<<<<<< HEAD
-                    <form action="#" method="post" id="checkboxForm">
-                        <div class="form-check mb-3" id="checkbox2-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox2" data-origin="Times Sq - 42 St" data-destination="137 St - City College">
-                            <label class="form-check-label" for="checkbox2">
-                                History 1
-                            </label>
-                        </div>
-                        <div class="form-check mb-3" id="checkbox3-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox3" data-origin="14 St" data-destination="Franklin St">
-                            <label class="form-check-label" for="checkbox3">
-                                History 2
-                            </label>
-                        </div>
-                        <div class="form-check mb-3" id="checkbox4-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox4" data-origin="Court St" data-destination="City Hall">
-                            <label class="form-check-label" for="checkbox4">
-                                History 3
-                            </label>
-                        </div>
-                        <div class="form-check mb-3" id="checkbox5-container">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" id="checkbox5" data-origin="Union St" data-destination="34 St - Herald Sq">
-                            <label class="form-check-label" for="checkbox5">
-                                History 4
-                            </label>
-                        </div>
-=======
-                    <form action="{% url 'delete_history' %}" method="post" id="checkboxForm">
-                        {% csrf_token %}
-                        {% for history in user.searchhistory_set.all %}
-                        <div class="form-check mb-3">
-                            <input class="form-check-input profile-card-input-check" type="checkbox" name="selected_histories" value="{{ history.id }}" id="checkbox{{ forloop.counter }}">
-                            <label class="form-check-label" for="checkbox{{ forloop.counter }}">
-                                {{ history.origin }} to {{ history.destination }} at {{ history.search_time }}
-                            </label>
-                        </div>
-                        {% endfor %}
->>>>>>> 9a26a7e (Connected backend to frontend)
-                    </form>
-                </div>
-                <div id="map-history-details" class="mt-4" style="display: none;">
-                    <h5>Details</h5>
-                    <div id="details-container"></div>
-                </div>
-            </div>
+  <div>
+    <div class="card profile-card">
+      <div class="card-body">
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+          <h5>Explore history</h5>
+          <button id="deleteButton" class="btn btn-danger">Delete</button>
         </div>
+        <hr />
+        <div class="mb-2 mt-2">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              style="margin-top: 9px"
+              id="selectAll"
+            />
+            <label class="form-check-label" for="selectAll"> Select all </label>
+          </div>
+        </div>
+        <hr />
+        <div class="mt-2 mb-2">
+          <form
+            action="{% url 'delete_history' %}"
+            method="post"
+            id="checkboxForm"
+          >
+            {% csrf_token %} {% for history in user.searchhistory_set.all %}
+            <div class="form-check mb-3">
+              <input
+                class="form-check-input profile-card-input-check"
+                type="checkbox"
+                name="selected_histories"
+                value="{{ history.id }}"
+                id="checkbox{{ forloop.counter }}"
+              />
+              <label
+                class="form-check-label"
+                for="checkbox{{ forloop.counter }}"
+              >
+                {{ history.origin }} to {{ history.destination }} at {{history.search_time }}
+              </label>
+            </div>
+            {% endfor %}
+          </form>
+        </div>
+        <div id="map-history-details" class="mt-4" style="display: none">
+          <h5>Details</h5>
+          <div id="details-container"></div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const selectAllCheckbox = document.getElementById('selectAll');
-    const checkboxes = document.querySelectorAll('.profile-card-input-check');
-    const deleteButton = document.getElementById('deleteButton');
-    const detailsContainer = document.getElementById('map-history-details');
-    const detailsContent = document.getElementById('details-container');
-<<<<<<< HEAD
-=======
-    const form = document.getElementById('checkboxForm');
->>>>>>> 9a26a7e (Connected backend to frontend)
+  document.addEventListener("DOMContentLoaded", function () {
+    const selectAllCheckbox = document.getElementById("selectAll");
+    const checkboxes = document.querySelectorAll(".profile-card-input-check");
+    const deleteButton = document.getElementById("deleteButton");
+    const detailsContainer = document.getElementById("map-history-details");
+    const detailsContent = document.getElementById("details-container");
+    const form = document.getElementById("checkboxForm");
 
-    selectAllCheckbox.addEventListener('change', function() {
-        checkboxes.forEach(function(checkbox) {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
-        updateDetails();
+    selectAllCheckbox.addEventListener("change", function () {
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = selectAllCheckbox.checked;
+      });
+      updateDetails();
     });
 
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            if (!checkbox.checked) {
-                selectAllCheckbox.checked = false;
-            } else {
-                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-                if (allChecked) {
-                    selectAllCheckbox.checked = true;
-                }
-            }
-            updateDetails();
-        });
-    });
-
-    deleteButton.addEventListener('click', function() {
-<<<<<<< HEAD
-        checkboxes.forEach(function(checkbox) {
-            if (checkbox.checked) {
-                const container = checkbox.closest('.form-check');
-                container.remove();
-            }
-        });
-        updateDetails();
-=======
-        if (confirm('Are you sure you want to delete the selected history items?')) {
-            form.submit();
+    checkboxes.forEach(function (checkbox) {
+      checkbox.addEventListener("change", function () {
+        if (!checkbox.checked) {
+          selectAllCheckbox.checked = false;
+        } else {
+          const allChecked = Array.from(checkboxes).every((cb) => cb.checked);
+          if (allChecked) {
+            selectAllCheckbox.checked = true;
+          }
         }
->>>>>>> 9a26a7e (Connected backend to frontend)
+        updateDetails();
+      });
+    });
+
+    deleteButton.addEventListener("click", function () {
+      if (
+        confirm("Are you sure you want to delete the selected history items?")
+      ) {
+        form.submit();
+      }
     });
 
     function updateDetails() {
-        const selectedCheckboxes = Array.from(checkboxes).filter(cb => cb.checked);
-        if (selectedCheckboxes.length > 0) {
-            detailsContent.innerHTML = '';
-            selectedCheckboxes.forEach(checkbox => {
-                const origin = checkbox.getAttribute('data-origin');
-                const destination = checkbox.getAttribute('data-destination');
-                const detailItem = `
+      const selectedCheckboxes = Array.from(checkboxes).filter(
+        (cb) => cb.checked
+      );
+      if (selectedCheckboxes.length > 0) {
+        detailsContent.innerHTML = "";
+        selectedCheckboxes.forEach((checkbox) => {
+          const origin = checkbox.getAttribute("data-origin");
+          const destination = checkbox.getAttribute("data-destination");
+          const detailItem = `
                     <p><strong>Origin:</strong> ${origin}</p>
                     <p><strong>Destination:</strong> ${destination}</p>
                     <hr>
                 `;
-                detailsContent.innerHTML += detailItem;
-            });
-            detailsContainer.style.display = 'block';
-        } else {
-            detailsContainer.style.display = 'none';
-        }
+          detailsContent.innerHTML += detailItem;
+        });
+        detailsContainer.style.display = "block";
+      } else {
+        detailsContainer.style.display = "none";
+      }
     }
-});
+  });
 </script>
 {% endblock %}

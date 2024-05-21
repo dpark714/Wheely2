@@ -1,18 +1,4 @@
 from django.contrib import admin
-<<<<<<< HEAD
-from .models import Trip, TripDetail
-
-
-# Register your models here.
-
-class TripAdmin(admin.ModelAdmin):
-    list_display = ('origin', 'destination', 'date_created')
-    list_filter = ('date_created',)
-    search_fields = ('origin', 'destination')
-
-admin.site.register(Trip)
-admin.site.register(TripDetail)
-=======
 from .models import StationInfo, AccessibleStation, AllStation
 # from .models import AccessibilityStation
 
@@ -33,4 +19,4 @@ admin.site.register(StationInfo, StationInfoAdmin)
 # admin.site.register(AccessibilityStation)
 admin.site.register(AllStation, AllStationAdmin)
 admin.site.register(AccessibleStation, AccessibleStationAdmin)
->>>>>>> 9a26a7e (Connected backend to frontend)
+
