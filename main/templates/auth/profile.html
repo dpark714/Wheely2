@@ -54,10 +54,6 @@
             {% endfor %}
           </form>
         </div>
-        <div id="map-history-details" class="mt-4" style="display: none">
-          <h5>Details</h5>
-          <div id="details-container"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -110,11 +106,6 @@
         selectedCheckboxes.forEach((checkbox) => {
           const origin = checkbox.getAttribute("data-origin");
           const destination = checkbox.getAttribute("data-destination");
-          const detailItem = `
-                    <p><strong>Origin:</strong> ${origin}</p>
-                    <p><strong>Destination:</strong> ${destination}</p>
-                    <hr>
-                `;
           detailsContent.innerHTML += detailItem;
         });
         detailsContainer.style.display = "block";
