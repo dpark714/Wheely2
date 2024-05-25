@@ -1,240 +1,263 @@
-{% extends "base.html" %} 
-{% block title %} Wheely - Navigation 
-{% endblock title %} 
+{% extends "base.html" %}
+{% block title %}
+    Wheely - Navigation
+{% endblock title %}
 {% block custom_css_links %}
-<link rel="stylesheet" href="#" />
-{% endblock %} 
+    <link rel="stylesheet" href="#"/>
+{% endblock %}
 {% block content %}
 <main role="main">
-  <div class="bg-primary banner-with-background oculus d-flex flex-column">
-    <div class="container my-auto">
-      <div class="row">
-        <div class="col-lg-9 offset-lg-3">
-          <h1 class="display-4 text-white">Are you WHEELY to explore?</h1>
-        </div>
-      </div>
-    </div>
-    <div class="container d-lg-none">
-      <div class="narrow">
-        <div class="btn-toggle narrow">
-          <button
-            class="btn btn-block btn-lg btn-primary shadow"
-            data-toggle="collapse"
-            data-target="#sidebar-nav"
-            aria-expanded="false"
-            aria-controls="sidebar-nav"
-          >
-            <span class="title">Title</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <article class="container" id="skip-header-target">
-    <div class="row">
-      <div class="col-lg-3 collapse d-lg-block" id="sidebar-nav">
-        <div class="mt-5">
-          <a class="sr-only sr-only-focusable skip-menu" href="#primary-content"
-            >Skip Nav</a
-          >
-          <h2 class="sr-only">Secondary Navigation</h2>
-          <nav role="navigation">
-            <div class="list-group custom-active">
-              <a
-                href="https://new.mta.info/map/5346"
-                class="list-group-item list-group-item-action active"
-                aria-current="page"
-              >
-                Accessible Stations Subway Map
-              </a>
-            </div>
-          </nav>
-        </div>
-      </div>
+    <!-- Add your custom image class below (replace 'oculus' with your own custom class) -->
+    <div class="bg-primary banner-with-background oculus d-flex flex-column">
 
-      <div class="col-lg-9 overflow-hidden" id="primary-content">
-        <div class="my-5">
-          <div class="narrow my-4">
-            <div class="card-header">
-              <h2>Plan a Trip with Wheely</h2>
-              <div class="form-container">
-                <form
-                  id="Trip-form"
-                  method="post"
-                  action="{% url 'station_info' %}"
-                >
-                  {% csrf_token %}
-                  <div>
-                    <label class="col-3" for="id_origin">Origin:</label>
-                    {{ form.origin }}
-                  </div>
-                  <div>
-                    <label class="col-3" for="id_destination"
-                      >Destination:</label
-                    >
-                    {{ form.destination }}
-                  </div>
-                  <button type="submit">Submit</button>
-                </form>
-              </div>
-            </div>
-            <br />
-            <iframe
-              id="map-iframe"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6038.720410065441!2d-73.95185268833133!3d40.82005113087423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2f6657fa896f5%3A0xa785a9c0ac09561a!2sThe%20City%20College%20of%20New%20York!5e0!3m2!1sen!2sus!4v1713406161847!5m2!1sen!2sus"
-              width="600"
-              height="450"
-              style="border: 0"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
-            <div class="accordion-group my-4" role="tablist" id="accordion-01">
-              <div class="card">
-                <a
-                  class="card-header h4 collapse collapsed"
-                  id="acc-button-01"
-                  data-toggle="collapse"
-                  href="#panel-acc-button-01"
-                  role="tab"
-                  aria-expanded="false"
-                  aria-controls="panel-acc-button-01"
-                >
-                  <span class="title" role="heading" aria-level="2"
-                    >Regular Route</span
-                  >
-                </a>
-                <div
-                  class="collapse"
-                  id="panel-acc-button-01"
-                  role="tabpanel"
-                  aria-labelledby="acc-button-01"
-                  data-parent="#accordion-01"
-                >
-                <div class="card-body">
-                    <strong id="trip-info"></strong><br />
-                    <div id="route-info" style="display: none">
-                      <div id="route-details"></div>
-                    </div>
-                  </div>
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-9 offset-lg-3">
+                    <h1 class="display-4 text-white">Are you WHEELY to explore?</h1>
                 </div>
-              </div>
-              <div class="card">
+            </div>
+        </div>
 
-                <a class="card-header h4 collapse collapsed" id="acc-button-02"
-                    data-toggle="collapse" href="#panel-acc-button-02" role="tab"
-                    aria-expanded="false" aria-controls="panel-acc-button-02">
-                    <span class="title" role="heading" aria-level="2">Alternative Route</span>
-                </a>
+        <!-- Toggle #sidebar-nav on mobile -->
+        <div class="container d-lg-none">
 
-                <div class="collapse" id="panel-acc-button-02" role="tabpanel"
-                    aria-labelledby="acc-button-02" data-parent="#accordion-01">
+            <div class="narrow">
 
-                    <div class="card-body">
-                        <div>
-                            <p><strong>1 > 2</strong><br>
-                                Time takes: <strong>45 min</strong><br>
-                                Accessibility:
-                                <ul>
-                                    <li>Origin Stop: Wheelchair Accessible</li>
-                                    <li>Destination Stop: No Wheelchair Accessible</li>
-                                </ul>
-                            </p>
+                <div class="btn-toggle narrow">
+                    <button class="btn btn-block btn-lg btn-primary shadow" data-toggle="collapse"
+                        data-target="#sidebar-nav" aria-expanded="false" aria-controls="sidebar-nav">
+                        <span class="title">Title</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <article class="container" id="skip-header-target">
+
+        <div class="row">
+
+            <div class="col-lg-3 collapse d-lg-block" id="sidebar-nav">
+
+                <div class="mt-5">
+
+                    <a class="sr-only sr-only-focusable skip-menu" href="#primary-content">Skip Nav</a>
+
+                    <h2 class="sr-only">
+                        Secondary Navigation
+                    </h2>
+
+                    <nav role="navigation">
+
+                        <div class="list-group custom-active">
+                            <a href="https://new.mta.info/map/5346" class="list-group-item list-group-item-action active" aria-current="page">
+                                Accessible Stations Subway Map
+                            </a>
+                            <a href="#1" class="list-group-item list-group-item-action">
+                                Link
+                            </a>
                         </div>
-                    </div>
+
+                    </nav>
 
                 </div>
-                <!-- .collapse -->
+                <!-- .sticky-top -->
 
             </div>
-            <!-- .card -->
+            <!-- .col -->
+
+            <div class="col-lg-9 overflow-hidden" id="primary-content">
+
+                <div class="my-5">
+
+                    <div class="narrow my-4">
+                        <div class="card-header">
+                            <h2>Plan a Trip with Wheely</h2>
+                            <div class="form-container">
+                                <form id="Trip-form" method="post" action="{% url 'station_info' %}">
+                                    {% csrf_token %}
+                                    <div>
+                                        <label class="col-3" for="id_origin">Origin:</label>
+                                        {{ form.origin }}
+                                    </div>
+                                    <div>
+                                        <label class="col-3" for="id_destination">Destination:</label>
+                                        {{ form.destination }}
+                                    </div>
+                                    <button type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <iframe id="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6038.720410065441!2d-73.95185268833133!3d40.82005113087423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2f6657fa896f5%3A0xa785a9c0ac09561a!2sThe%20City%20College%20of%20New%20York!5e0!3m2!1sen!2sus!4v1713406161847!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div class="accordion-group my-4" role="tablist" id="accordion-01">
+
+                            <div class="card">
+
+                                <a class="card-header h4 collapse collapsed" id="acc-button-01"
+                                    data-toggle="collapse" href="#panel-acc-button-01" role="tab"
+                                    aria-expanded="false" aria-controls="panel-acc-button-01">
+                                    <span class="title" role="heading" aria-level="2">Regular Route</span>
+                                </a>
+
+                                <div class="collapse" id="panel-acc-button-01" role="tabpanel"
+                                    aria-labelledby="acc-button-01" data-parent="#accordion-01">
+
+                                    <div class="card-body">
+                                        <div>
+                                            <p>Please put origin and destination<br>
+                                                <strong>origin > destination</strong><br>
+                                                Time takes: <strong>0 min</strong><br>
+                                                <ul>
+                                                    <li> </li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- .collapse -->
+
+                            </div>
+                            <!-- .card -->
+
+                            <div class="card">
+
+                                <a class="card-header h4 collapse collapsed" id="acc-button-02"
+                                    data-toggle="collapse" href="#panel-acc-button-02" role="tab"
+                                    aria-expanded="false" aria-controls="panel-acc-button-02">
+                                    <span class="title" role="heading" aria-level="2">Alternative Route</span>
+                                </a>
+
+                                <div class="collapse" id="panel-acc-button-02" role="tabpanel"
+                                    aria-labelledby="acc-button-02" data-parent="#accordion-01">
+
+                                    <div class="card-body">
+                                        <div>
+                                            <p><strong>1 > 2</strong><br>
+                                                Time takes: <strong>45 min</strong><br>
+                                                Accessibility:
+                                                <ul>
+                                                    <li>Origin Stop: Wheelchair Accessible</li>
+                                                    <li>Destination Stop: No Wheelchair Accessible</li>
+                                                </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- .collapse -->
+
+                            </div>
+                            <!-- .card -->
+
+
+                        </div>
+                        <!-- .accordion-group -->
+                    </div>
+                    <!-- .narrow -->
+
+                </div>
+                <!-- .my-5 -->
 
             </div>
-            
-          </div>
+            <!-- #primary-content -->
+
         </div>
-      </div>
-    </div>
-  </article>
+        <!-- .row -->
+
+    </article>
+    <!-- #primary-content -->
+
 </main>
 
 
 <script>
-    document
-      .getElementById("Trip-form")
-      .addEventListener("submit", function (event) {
+    document.getElementById('Trip-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const origin = document.querySelector('[name="origin"]').value;
         const destination = document.querySelector('[name="destination"]').value;
-    
-        const mapFrame = document.querySelector("iframe");
+
+        const mapFrame = document.querySelector('iframe');
         const baseUrl = "https://www.google.com/maps/embed/v1/directions";
         const apiKey = "";
-        const newSrc = `${baseUrl}?key=${apiKey}&origin=${encodeURIComponent(
-          origin
-        )}&destination=${encodeURIComponent(destination)}&mode=transit`;
+        const newSrc = `${baseUrl}?key=${apiKey}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&mode=transit`;
         mapFrame.src = newSrc;
-    
+
         fetch('{% url "station_info" %}', {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}",
-          },
-          body: JSON.stringify({ origin: origin, destination: destination }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({origin: origin, destination: destination})
         })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.status && data.status !== "OK") {
-              console.error("Error:", data.message);
-              return;
+        .then(response => response.json())
+        .then(data => {
+            if (data.status && data.status !== 'OK') {
+                console.error('Error:', data.message);
+                return;
             }
-    
-            const tripInfo = document.getElementById("trip-info");
-            tripInfo.textContent = `${origin} > ${destination}, Duration: ${calculateDuration(data.directions.routes[0].legs[0].duration.value)}`;
-    
-            const routeDetails = document.getElementById("route-details");
-            routeDetails.innerHTML = "";
-    
-            data.legs_accessibility.forEach((leg, index) => {
-              const legElement = document.createElement("div");
-              legElement.innerHTML = `
-                <p><strong>Route</strong></p>
-                <p>Origin: ${leg.start_station}</p>
-                <p>Destination: ${leg.end_station}</p>
-                <ul>
-                  ${leg.steps
-                    .map(
-                      (step) => `
-                      <li>
-                        Departure Stop: ${step.departure_stop} - ${
-                          step.departure_accessible ? "Accessible" : "Not Accessible"
-                        }
-                        <br>
-                        Arrival Stop: ${step.arrival_stop} - ${
-                          step.arrival_accessible ? "Accessible" : "Not Accessible"
-                        }
-                      </li>
-                    `
-                    )
-                    .join("")}
-                </ul>
-              `;
-              routeDetails.appendChild(legElement);
-            });
-    
-            document.getElementById("route-info").style.display = "block";
-          })
-          .catch((error) => console.error("Error:", error));
-      });
-    
-    function calculateDuration(seconds) {
-      const hours = Math.floor(seconds / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      return `${hours} hours ${minutes} minutes`;
-    }
-    
-    </script>
+
+            const accessibleStations = data.accessible_stations;
+            const normalizeStationName = (name) => {
+                return name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().trim();
+            };
+
+            const suggestedRoute = data.directions.routes[0].legs[0];
+            const duration = suggestedRoute.duration.text;
+            const steps = suggestedRoute.steps.map(step => {
+                if (step.travel_mode === 'TRANSIT') {
+                    const transitDetails = step.transit_details;
+                    const vehicleType = transitDetails.line.vehicle.type;
+                    const lineName = transitDetails.line.short_name || transitDetails.line.name;
+                    const stops = [];
+
+                    const departureStopName = transitDetails.departure_stop.name.trim();
+                    const arrivalStopName = transitDetails.arrival_stop.name.trim();
+
+                    let departureAccessibility = '(Accessible)';
+                    let arrivalAccessibility = '(Accessible)';
+
+                    if (vehicleType === 'SUBWAY') {
+                        departureAccessibility = accessibleStations.includes(normalizeStationName(departureStopName)) ? '(Accessible)' : '(Not Accessible)';
+                        arrivalAccessibility = accessibleStations.includes(normalizeStationName(arrivalStopName)) ? '(Accessible)' : '(Not Accessible)';
+                    }
+
+
+                    stops.push(`${transitDetails.departure_stop.name} (${vehicleType}) - ${lineName} ${departureAccessibility}`);
+                    if (vehicleType === 'BUS' && transitDetails.intermediate_stops) {
+                        transitDetails.intermediate_stops.forEach(stop => {
+                            stops.push(`${stop.name} (${vehicleType}) - ${lineName} (Accessible)`);
+                        });
+                    }
+                    stops.push(`${transitDetails.arrival_stop.name} (${vehicleType}) - ${lineName} ${arrivalAccessibility}`);
+                    return stops.join('<br>');
+                } else {
+                    return `${step.html_instructions}`;
+                }
+            }).join('<br>');
+
+            const cardBody = document.querySelector('#panel-acc-button-01 .card-body');
+            cardBody.innerHTML = `
+                <div>
+                    <p><strong>${origin} > ${destination}</strong><br>
+                        Time takes: <strong>${duration}</strong><br>
+                        Route:
+                        <ul>
+                            ${steps}
+                        </ul>
+                    </p>
+                </div>
+            `;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
 
 {% endblock %}
+
