@@ -19,6 +19,8 @@ from .models import AccessibleStation, AllStation,  SearchHistory
 # from .models import AccessibilityStation
 import logging
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+import re
+from .models import SearchHistory
 
 logger = logging.getLogger(__name__)
 
@@ -95,9 +97,7 @@ def about_team(request):
 def profile(request):
     return render(request, 'auth/profile.html')
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import SearchHistory
+
 
 @login_required
 def delete_history(request):
@@ -115,6 +115,9 @@ def accessible_station_list(request):
 def all_station_list(request):
     stations = AllStation.objects.all()
     return render(request, 'all_station_list.html', {'stations': stations})
+
+def normalize_station_name(name):
+    return re.sub(r'[^a-zA-Z0-9]', '', name).lower().strip()
 
 logger = logging.getLogger(__name__)
 
@@ -141,7 +144,7 @@ def station_info(request):
             transfer_stations = []
             bus_stations = []
 
-            for route in directions['routes']:
+            for route in directions['routes']:  
                 for leg in route['legs']:
                     for step in leg['steps']:
                         if step['travel_mode'] == 'TRANSIT':
@@ -162,7 +165,9 @@ def station_info(request):
                                     for stop in transit_details['intermediate_stops']:
                                         bus_stations.append(stop['name'])
 
-                            logger.debug(f"Added {vehicle_type} stops: {departure_stop}, {arrival_stop}")
+            # Fetch accessible stations and normalize names
+            accessible_stations = AccessibleStation.objects.values_list('station_name', flat=True)
+            accessible_stations_list =  [normalize_station_name(station) for station in accessible_stations]
 
             StationInfo.objects.create(
                 start_station=user_origin,
@@ -177,45 +182,13 @@ def station_info(request):
                 destination=user_destination
             )
 
-            # Check accessibility for origin and destination stops of each leg
-            legs_accessibility = []
-            for route in directions['routes']:
-                for leg in route['legs']:
-                    leg_info = {
-                        'start_station': user_origin,
-                        'end_station': user_destination,
-                        'steps': []
-                    }
-                    for step in leg['steps']:
-                        if step['travel_mode'] == 'TRANSIT':
-                            transit_details = step['transit_details']
-                            departure_stop = transit_details['departure_stop']['name']
-                            arrival_stop = transit_details['arrival_stop']['name']
-
-                            departure_accessible = AccessibleStation.objects.filter(station_name=departure_stop).exists()
-                            arrival_accessible = AccessibleStation.objects.filter(station_name=arrival_stop).exists()
-                            
-                            leg_info['steps'].append({
-                                'departure_stop': departure_stop,
-                                'arrival_stop': arrival_stop,
-                                'departure_accessible': departure_accessible,
-                                'arrival_accessible': arrival_accessible
-                            })
-                    legs_accessibility.append(leg_info)
-
             return JsonResponse({
-                'status': 'OK',
                 'directions': directions,
-                'legs_accessibility': legs_accessibility
+                'accessible_stations': accessible_stations_list
             })
         else:
-            logger.error("Google Maps API error: " + directions['status'])
             return JsonResponse({'status': 'error', 'message': 'Unable to find route'})
     except json.JSONDecodeError as e:
         return JsonResponse({'error': 'Invalid JSON data', 'message': str(e)}, status=400)
     except Exception as e:
-        logger.exception("Exception in station_info:")
-        return JsonResponse({'status': 'error', 'message': str(e)})
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
-
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

@@ -43,6 +43,10 @@ class AccessibleStation(models.Model):
     station_name = models.CharField(max_length=255)
     line = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.station_name
+
+
 class AllStation(models.Model):
     # Define fields based on the structure of All Station.csv
     station_id = models.CharField(max_length=255)
